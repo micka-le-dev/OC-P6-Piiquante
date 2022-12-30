@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 
 /** import des routes */
 const routerParDefaut = require('./routes/defaut')
+const routerDevLog = require('./routes/dev')
 
 
 mongoose.set('strictQuery', true)
@@ -17,6 +18,7 @@ mongoose.connect('mongodb+srv://go-fullstack-v3-fr:QCwY6hhLnLxTl1vN@oc-p6-cours-
 
 const app = express()
 app.use(express.json()) // parse l'objet requète
+app.use(routerDevLog) // log toute les requètes dans la console pour le développement
 
 
 /** résoud l'erreur CORS */
