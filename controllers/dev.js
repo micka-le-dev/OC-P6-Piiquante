@@ -21,6 +21,7 @@ exports.devLog = (req, res, next) => {
     }
     const strDate = '['+ new Intl.DateTimeFormat('fr-FR', options).format(new Date()) +']'
     const strMethod = strStd( req.method.toUpperCase(), 7 )
+    console.log('')
     console.log(strDate + ' <- ' + strMethod + ' ' + req.url)
     next()
 }

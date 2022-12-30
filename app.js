@@ -1,9 +1,10 @@
 const express = require('express')
 const mongoose = require('mongoose')
 
-/** import des routes */
+/** import des routers */
 const defaultRoutes = require('./routes/defaut')
 const devLog = require('./routes/dev')
+const userRoutes = require('./routes/user')
 
 
 mongoose.set('strictQuery', true)
@@ -31,6 +32,6 @@ app.use((req, res, next) => {
 
 
 /** chemins d'accès à l'API */
-app.post('/api/auth', userRoutes)
+app.use('/api/auth', userRoutes)
 
 module.exports = app
