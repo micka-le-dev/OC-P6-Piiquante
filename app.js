@@ -4,6 +4,7 @@ const express = require('express')
 const defaultRoutes = require('./routes/defaut')
 const devLog = require('./routes/dev')
 const userRoutes = require('./routes/user')
+const sauceRoutes = require('./routes/sauce')
 
 
 
@@ -25,5 +26,6 @@ app.use((req, res, next) => {
 
 /** chemins d'accès à l'API */
 app.use('/api/auth', userRoutes)
+app.use('api/sauces', sauceRoutes)
 
 module.exports = app

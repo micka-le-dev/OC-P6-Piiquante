@@ -12,7 +12,7 @@ exports.signup = (req, res, next) => {
                 password: hash
             })
             user.save()
-                .then( () => Repondre.newAccoutUser(res))
+                .then( () => Repondre.message(res, 201, 'Compte utilisateur créé !'))
                 .catch( err => {
                     Repondre.ErreurServeur(res, err, 'signup -> save : erreur !')
                 })
@@ -39,7 +39,7 @@ exports.login = (req, res, next) => {
                     }
                     Repondre.objet(res, 200, {
                         userId: user._id,
-                        token: Token.newToken(user._id)
+                        token: Token.encodeUserId(user._id)
                     })
                 })
                 .catch( err => {

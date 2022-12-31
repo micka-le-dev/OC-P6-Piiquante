@@ -2,12 +2,11 @@ const http = require('http')
 const mongoose = require('mongoose')
 const app = require('./app')
 
+const beginConnectMongoDB = require('./var').beginConnectMongoDB
+const port = require('./var').port
+
 console.log(new Intl.DateTimeFormat('fr-FR', { dateStyle: 'full', timeStyle: 'long', timeZone: 'Europe/Paris' }).format(new Date()))
 console.log('Start server')
-
-const beginConnectMongoDB = true
-const port = process.env.PORT || 3000
-
 
 app.set('port', port)
 
