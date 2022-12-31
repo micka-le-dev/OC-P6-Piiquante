@@ -1,5 +1,4 @@
 const express = require('express')
-const mongoose = require('mongoose')
 
 /** import des routers */
 const defaultRoutes = require('./routes/defaut')
@@ -7,19 +6,12 @@ const devLog = require('./routes/dev')
 const userRoutes = require('./routes/user')
 
 
-mongoose.set('strictQuery', true)
-mongoose.connect('mongodb+srv://go-fullstack-v3-fr:QCwY6hhLnLxTl1vN@oc-p6-cours--go-fullsta.gnfmyuh.mongodb.net/?retryWrites=true&w=majority',
-    { useNewUrlParser: true,
-    useUnifiedTopology: true })
-    .then(() => console.log('Connexion à MongoDB réussie !'))
-    .catch(() => console.log('Connexion à MongoDB échouée !'))
-
 
 
 
 const app = express()
 app.use(express.json()) // parse l'objet requète
-app.use(devLog) // log toute les requètes dans la console pour le développement
+app.use(devLog) // log toute les requêtes dans la console pour le développement
 
 
 /** résoud l'erreur CORS */
