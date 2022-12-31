@@ -1,11 +1,8 @@
 const bcrypt = require('bcrypt')
 const User = require('../models/Users')
-const repondreParUnMessage = require('../utils/modelResponse')
+const Repondre = require('../utils/Repondre')
 const Token = require('../utils/token')
 
-function messageErreurNewCompte(res, err){
-    repondreParUnMessage.resByMessage(res, 500, 'Erreur lors de la création du compte utilisateur !')
-}
 
 exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)
@@ -15,53 +12,41 @@ exports.signup = (req, res, next) => {
                 password: hash
             })
             user.save()
-                .then( () => repondreParUnMessage.resByMessage(res, 201, 'Compte utilisateur créé !'))
+                .then( () => Repondre.newAccoutUser(res))
                 .catch( err => {
-                    console.error('signup -> save : erreur !')
-                    console.error(err)
-                    messageErreurNewCompte(res)
+                    Repondre.ErreurServeur(res, err, 'signup -> save : erreur !')
                 })
         })
         .catch( err => {
-            console.error('signup -> bcrypt.hash : erreur !')
-            console.error(err)
-            messageErreurNewCompte(res)
+            Repondre.ErreurServeur(res, err, 'signup -> bcrypt.hash : erreur !')
         })
 
 }
 
-
-function messageErreurAuth(res){
-    repondreParUnMessage.resByMessage(res, 401, 'Paire "email/mot de passe" incorrecte !')
-}
 
 exports.login = (req, res, next) => {
     User.findOne({ email: req.body.email })
         .then( user => {
             if( user === null ){
-                messageErreurAuth(res)
+                Repondre.ErreurAuthentification(res)
                 return
             }
             bcrypt.compare(req.body.password, user.password)
                 .then( valide => {
                     if( !valide ){
-                        messageErreurAuth(res)
+                        Repondre.ErreurAuthentification(res)
                         return
                     }
-                    res.status(200).json({
+                    Repondre.objet(res, 200, {
                         userId: user._id,
                         token: Token.newToken(user._id)
                     })
                 })
                 .catch( err => {
-                    console.error('login -> bcrypt.compare : erreur !')
-                    console.error(err)
-                    repondreParUnMessage.resErreurServeur(res)
+                    Repondre.ErreurServeur(res, err, 'login -> bcrypt.compare : erreur !')
                  })
         })
         .catch( err => {
-            console.error('login -> findOne : erreur !')
-            console.error(err)
-            repondreParUnMessage.resErreurServeur(res)
+            Repondre.ErreurServeur(res, err, 'login -> findOne : erreur !')
          })
 }
