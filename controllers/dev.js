@@ -23,5 +23,7 @@ exports.devLog = (req, res, next) => {
     const strMethod = strStd( req.method.toUpperCase(), 7 )
     // console.log('')
     console.log(strDate + ' <- ' + strMethod + ' ' + req.url)
+    console.log(req.headers)
+    console.log('')
     next()
 }
