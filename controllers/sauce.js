@@ -31,3 +31,7 @@ exports.getAllSauces = (req, res, next) => {
         .then(sauces => Repondre.objet(res, 200, sauces))
         .catch(err => Repondre.ErreurServeur(res, err, 'getAllSauces() => Sauce.find'))
 }
+
+exports.getOneSauce = (req, res, next) => {
+    Repondre.nonImplemented(res, 'getOneSauce')
+}

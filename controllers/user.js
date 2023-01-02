@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt')
 const User = require('../models/Users')
 const Repondre = require('../utils/Repondre')
 const Token = require('../utils/token')
+const consoleLog = require('../var').consoleLog
 
 
 exports.signup = (req, res, next) => {
@@ -37,6 +38,8 @@ exports.login = (req, res, next) => {
                         Repondre.ErreurAuthentification(res)
                         return
                     }
+                    if( consoleLog )
+                        console.log('   Connexion de l\'utilisateur '+user._id)
                     Repondre.objet(res, 200, {
                         userId: user._id,
                         token: Token.encodeUserId(user._id)
