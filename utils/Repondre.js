@@ -3,10 +3,10 @@ const consoleErreur = require('../var').consoleErreur
 
 exports.ErreurServeur = (res, error, contextMessage) => {
     if( consoleErreur) {
-        console.error('Repond dans le constexte : '+contextMessage)
-        console.error('   Repond avec le status : 500, Erreur du serveur')
-        console.error('   Erreur du serveur : '+error)
-        console.error('---')
+        console.error('   Repond dans le constexte : '+contextMessage)
+        console.error('      Repond avec le status : 500, Erreur du serveur')
+        console.error('      Erreur du serveur : '+error)
+        console.error('------------')
         console.error('')
     }
     res.status(500).json({ error : error })
@@ -16,9 +16,9 @@ exports.ErreurServeur = (res, error, contextMessage) => {
 exports.ErreurAuthentification = (res) => {
     const message = 'Paire "email/mot de passe" incorrecte !'
     if( consoleLog ) {
-        console.log('Repond avec le status : 401, Erreur d\'authentification')
-        console.log('   '+message)
-        console.log('---')
+        console.log('   Repond avec le status : 401, Erreur d\'authentification')
+        console.log('      '+message)
+        console.log('------------')
         console.log('')
     }
     res.status(401).json({ message })
@@ -26,9 +26,9 @@ exports.ErreurAuthentification = (res) => {
 
 exports.nonAuthorise = (res, error) => {
     if( consoleErreur ) {
-        console.error('Repond avec le status : 401, Erreur d\'authentification')
+        console.error('   Repond avec le status : 401, Erreur d\'authentification')
         console.error('Erreur d\'authentification : '+error)
-        console.error('---')
+        console.error('------------')
         console.error('')
     }
     res.status(401).json({ error })
@@ -36,9 +36,9 @@ exports.nonAuthorise = (res, error) => {
 
 exports.objet = (res, statusHTTP, objet) => {
     if( consoleLog ){
-        console.log('Repond avec le status : '+statusHTTP)
+        console.log('   Repond avec le status : '+statusHTTP)
         console.log(objet)
-        console.log('---')
+        console.log('------------')
         console.log('')
     }
     res.status(statusHTTP).json(objet)
@@ -46,9 +46,9 @@ exports.objet = (res, statusHTTP, objet) => {
 
 exports.message = (res, statusHTTP, message) => {
     if( consoleLog ){
-        console.log('Repond avec le status : '+statusHTTP)
-        console.log('   '+message)
-        console.log('---')
+        console.log('   Repond avec le status : '+statusHTTP)
+        console.log('      '+message)
+        console.log('------------')
         console.log('')
     }
     res.status(statusHTTP).json({ message })

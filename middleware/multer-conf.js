@@ -1,7 +1,6 @@
 const multer = require('multer')
 const consoleLog = require('../var').consoleLog
-
-const dossier = 'images/sauces'
+const dossier = require('../var').dossierImagesSauces
 
 const MIME_TYPES = {
     'image/jpg': 'jpg',

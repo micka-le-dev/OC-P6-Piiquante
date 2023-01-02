@@ -8,5 +8,6 @@ const sauceController = require('../controllers/sauce')
 
 
 router.post('/', authentify, multer, sauceController.createSauce)
+router.get('/', authentify, multer, sauceController.getAllSauces)
 
 module.exports = router
