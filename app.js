@@ -1,4 +1,5 @@
 const express = require('express')
+const path = require('path')
 
 /** import des routers */
 const defaultRoutes = require('./routes/defaut')
@@ -27,5 +28,6 @@ app.use((req, res, next) => {
 /** chemins d'accès à l'API */
 app.use('/api/auth', userRoutes)
 app.use('/api/sauces', sauceRoutes)
+app.use('/images', express.static(path.join(__dirname, 'images')))
 
 module.exports = app
