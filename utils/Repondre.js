@@ -11,7 +11,7 @@ exports.nonImplemented = (res, contextMessage) => {
         console.error(separateurFinReponse)
         console.error('')
     }
-    res.status(500).json({ error : error })
+    res.status(500).json({ error })
 }
 
 exports.ErreurServeur = (res, error, contextMessage) => {
@@ -22,7 +22,7 @@ exports.ErreurServeur = (res, error, contextMessage) => {
         console.error(separateurFinReponse)
         console.error('')
     }
-    res.status(500).json({ error : error })
+    res.status(500).json({ error })
 }
 
 

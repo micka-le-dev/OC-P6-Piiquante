@@ -17,10 +17,6 @@ exports.createSauce = (req, res, next) => {
         usersDisliked: []
     })
 
-    console.log('new Sauce({')
-    console.log(sauce)
-    console.log('})')
-
     sauce.save()
         .then(() => Repondre.message(res, 201, 'Nouvelle sauce enregistrée !'))
         .catch(err => Repondre.ErreurServeur(res,err,'createSauce() => sauce.save'))
@@ -36,4 +32,12 @@ exports.getOneSauce = (req, res, next) => {
     Sauce.findOne({ _id: req.params.id })
         .then(sauce => Repondre.objet(res, 200, sauce))
         .catch(err => Repondre.ErreurServeur(res, err, 'getAllSauces() => Sauce.find'))
+}
+
+exports.modifySauce = (req, res, next) => {
+    Repondre.nonImplemented(res, 'contrôleur modifySauce')
+}
+
+exports.deleteSauce = (req, res, next) => {
+    Repondre.nonImplemented(res, 'contrôleur deleteSauce')
 }
