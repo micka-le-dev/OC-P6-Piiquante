@@ -26,6 +26,6 @@ app.use((req, res, next) => {
 
 /** chemins d'accès à l'API */
 app.use('/api/auth', userRoutes)
-app.use('api/sauces', sauceRoutes)
+app.use('/api/sauces', sauceRoutes)
 
 module.exports = app

@@ -5,14 +5,8 @@ const router = express.Router()
 
 const sauceController = require('../controllers/sauce')
 
-router.use( (req, res, next)=> {
-    console.log('/api/sauces')
-    console.log(req)
-    console.log('---')
-    next()
-})
 
 
-router.post('/', /*authentify, multer,*/ sauceController.createSauce)
+router.post('/', authentify, multer, sauceController.createSauce)
 
 module.exports = router

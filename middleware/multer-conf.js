@@ -1,6 +1,7 @@
 const multer = require('multer')
+const consoleLog = require('../var').consoleLog
 
-const dossier = 'images'
+const dossier = 'images/sauces'
 
 const MIME_TYPES = {
     'image/jpg': 'jpg',
@@ -8,12 +9,22 @@ const MIME_TYPES = {
     'image/png': 'png'
 }
 
+const supprExtension = nameFile => {
+    const fragmentsNom = nameFile.split('.')
+    fragmentsNom.pop()
+    const newName = fragmentsNom.join('.')
+    return newName
+}
+
 const storage = multer.diskStorage({
         destination: (req, file, callback) => { callback(null, dossier ) },
         filename: (req, file, callback) => {
-                const name = file.originalname.replaceAll(' ', '_')
+                const name = supprExtension(''+file.originalname).replaceAll(' ', '_')
                 const extension = MIME_TYPES[file.mimetype]
-                callback(null, name+'_'+Date.now()+'.'+extension)
+                const newName = name+'_'+Date.now()+'.'+extension
+                if( consoleLog )
+                    console.log('   multer : '+file.originalname+"  =>  "+dossier+'/'+newName)
+                callback(null, newName)
             }
     })
 

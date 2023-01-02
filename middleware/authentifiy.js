@@ -7,7 +7,7 @@ module.exports = authentify = (req, res, next) => {
     try{
         req.auth = { userId: Token.decodeUserId(req.headers.authorization) }
         if( consoleLog )
-            console.log(req.auth.userId+' authentifié')
+            console.log('   Utilisateur ' + req.auth.userId+' authentifié.')
         next()
     }catch(err){
         Repondre.nonAuthorise(res,err)

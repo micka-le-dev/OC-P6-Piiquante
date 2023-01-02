@@ -3,13 +3,13 @@ const consoleErreur = require('../var').consoleErreur
 
 exports.ErreurServeur = (res, error, contextMessage) => {
     if( consoleErreur) {
-        console.error(contextMessage)
-        console.error('Repond avec le status : 500, Erreur du serveur')
-        console.error(error)
+        console.error('Repond dans le constexte : '+contextMessage)
+        console.error('   Repond avec le status : 500, Erreur du serveur')
+        console.error('   Erreur du serveur : '+error)
         console.error('---')
         console.error('')
     }
-    res.status(500).json({ error })
+    res.status(500).json({ error : error })
 }
 
 
@@ -17,7 +17,7 @@ exports.ErreurAuthentification = (res) => {
     const message = 'Paire "email/mot de passe" incorrecte !'
     if( consoleLog ) {
         console.log('Repond avec le status : 401, Erreur d\'authentification')
-        console.log(message)
+        console.log('   '+message)
         console.log('---')
         console.log('')
     }
@@ -27,7 +27,7 @@ exports.ErreurAuthentification = (res) => {
 exports.nonAuthorise = (res, error) => {
     if( consoleErreur ) {
         console.error('Repond avec le status : 401, Erreur d\'authentification')
-        console.error(error)
+        console.error('Erreur d\'authentification : '+error)
         console.error('---')
         console.error('')
     }
@@ -47,7 +47,7 @@ exports.objet = (res, statusHTTP, objet) => {
 exports.message = (res, statusHTTP, message) => {
     if( consoleLog ){
         console.log('Repond avec le status : '+statusHTTP)
-        console.log(message)
+        console.log('   '+message)
         console.log('---')
         console.log('')
     }

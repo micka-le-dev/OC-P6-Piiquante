@@ -63,6 +63,10 @@ mongoose.connect('mongodb+srv://go-fullstack-v3-fr:QCwY6hhLnLxTl1vN@oc-p6-cours-
       console.log('Connexion à MongoDB réussie !')
       if( beginConnectMongoDB )
         server.listen(port)
+      else{
+        console.log('')
+        console.log('')
+      }
     })
     .catch(() => {
       console.log('Connexion à MongoDB échouée !')
