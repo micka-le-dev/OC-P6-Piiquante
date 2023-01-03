@@ -1,4 +1,5 @@
 const consoleLog = require('../var').consoleLog
+const consoleLogBigBody = require('../var').consoleLogBigBody
 const consoleErreur = require('../var').consoleErreur
 const separateurFinReponse = require('../var').separateurFinReponse
 
@@ -50,7 +51,10 @@ exports.nonAuthorise = (res, error) => {
 exports.objet = (res, statusHTTP, objet) => {
     if( consoleLog ){
         console.log('   Repond avec le status : '+statusHTTP)
-        console.log(objet)
+        if( consoleLogBigBody )
+            console.log(objet)
+        else if ( objet instanceof Array )
+            console.log(`   Tableau de ${objet.length} objets.`)
         console.log(separateurFinReponse)
         console.log('')
     }

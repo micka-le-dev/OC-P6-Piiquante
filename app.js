@@ -1,5 +1,6 @@
 const express = require('express')
 const path = require('path')
+const dossierPublic = require('./var').dossier
 
 /** import des routers */
 const defaultRoutes = require('./routes/defaut')
@@ -28,6 +29,6 @@ app.use((req, res, next) => {
 /** chemins d'accès à l'API */
 app.use('/api/auth', userRoutes)
 app.use('/api/sauces', sauceRoutes)
-app.use('/images', express.static(path.join(__dirname, 'images')))
+app.use('/'+dossierPublic, express.static(path.join(__dirname, dossierPublic )))
 
 module.exports = app

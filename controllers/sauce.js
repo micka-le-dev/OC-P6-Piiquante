@@ -1,6 +1,9 @@
 const Repondre = require('../utils/Repondre')
 const Sauce = require('../models/Sauces')
 const dossierImagesSauces = require('../var').dossierImagesSauces
+const fs = require('fs')
+const { consoleLog } = require('../var')
+const fileNameCompete = require('../utils/fileName').fileNameCompete
 
 exports.createSauce = (req, res, next) => {
     const sauceReq = JSON.parse(req.body.sauce)
@@ -18,7 +21,7 @@ exports.createSauce = (req, res, next) => {
     })
 
     sauce.save()
-        .then(() => Repondre.message(res, 201, 'Nouvelle sauce enregistrée !'))
+        .then(() => Repondre.message(res, 201, 'Nouvelle sauce enregistrée : '+ sauce._id +' !'))
         .catch(err => Repondre.ErreurServeur(res,err,'createSauce() => sauce.save'))
 }
 
@@ -39,5 +42,20 @@ exports.modifySauce = (req, res, next) => {
 }
 
 exports.deleteSauce = (req, res, next) => {
-    Repondre.nonImplemented(res, 'contrôleur deleteSauce')
+    Sauce.findOne({ _id: req.params.id })
+        .then(sauce => {
+            if( req.auth.userId !== sauce.userId ){
+                Repondre.nonAuthorise(res,new Error("Utilisateur non-authorisé à supprimer cette sauce !"))
+                return
+            }
+            const pathFileComplete = fileNameCompete(sauce.imageUrl)
+            if( consoleLog )
+                console.log('   Va supprimer '+pathFileComplete)
+            fs.unlink( pathFileComplete, () => {
+                Sauce.deleteOne( { _id: req.params.id })
+                    .then( () => Repondre.message(res, 200, `Sauce ${req.params.id} supprimée !`) )
+                    .catch( err => Repondre.ErreurServeur(res, err, 'deleteSauce() => Sauce.deleteOne'))
+            } )
+        })
+        .catch(err => Repondre.ErreurServeur(res, err, 'deleteSauce() => Sauce.find'))
 }
