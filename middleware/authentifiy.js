@@ -6,8 +6,8 @@ module.exports = authentify = (req, res, next) => {
     delete req.auth
     try{
         const token = req.headers.authorization
-        if( consoleLog )
-            console.log('   authentification du token : '+token)
+        // if( consoleLog )
+        //     console.log('   authentification du token : '+token)
         req.auth = { userId: Token.decodeUserId(token) }
         if( consoleLog )
             console.log('   Utilisateur ' + req.auth.userId+' authentifié.')

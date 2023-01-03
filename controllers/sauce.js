@@ -1,9 +1,8 @@
 const Repondre = require('../utils/Repondre')
 const Sauce = require('../models/Sauces')
-const dossierImagesSauces = require('../var').dossierImagesSauces
 const fs = require('fs')
 const { consoleLog } = require('../var')
-const fileNameCompete = require('../utils/fileName').fileNameCompete
+const publicFile = require('../utils/fileName')
 
 exports.createSauce = (req, res, next) => {
     const sauceReq = JSON.parse(req.body.sauce)
@@ -13,7 +12,7 @@ exports.createSauce = (req, res, next) => {
     const sauce = new Sauce({
         ...sauceReq,
         userId: req.auth.userId,
-        imageUrl: `${req.protocol}://${req.get('host')}/${dossierImagesSauces}/${req.file.filename}`,
+        imageUrl: publicFile.imageUrlSauce(req),
         likes: 0,
         dislikes: 0,
         usersLiked: [],
@@ -38,24 +37,48 @@ exports.getOneSauce = (req, res, next) => {
 }
 
 exports.modifySauce = (req, res, next) => {
-    Repondre.nonImplemented(res, 'contrôleur modifySauce')
+    if( ! req.auth.sauceOrigin ){
+        Repondre.nonAuthorise(res,new Error("Utilisateur non-authorisé à modifier cette sauce !"))
+        return
+    }
+
+    const sauceOrigin = req.auth.sauceOrigin
+    const promesses = []
+
+    let newSauce = {}
+
+    if( req.file ){
+        promesses.push( publicFile.deleteImageSauce(sauceOrigin.imageUrl) )
+        newSauce = {
+            ...JSON.parse(req.body.sauce),
+            imageUrl: publicFile.imageUrlSauce(req)
+        }
+    }
+    else{
+        newSauce = { ...req.body }
+    }
+    newSauce._id = req.params.id
+    newSauce.userId = req.auth.userId
+
+    promesses.push( Sauce.updateOne({ _id: newSauce._id }, newSauce ) )
+
+    Promise.all(promesses)
+        .then(() => Repondre.message(res, 200, "Sauce mise à jour !" ))
+        .catch(err => Repondre.ErreurServeur(res, err, 'modifySauce() => Sauce.updateOne'))
 }
 
 exports.deleteSauce = (req, res, next) => {
-    Sauce.findOne({ _id: req.params.id })
-        .then(sauce => {
-            if( req.auth.userId !== sauce.userId ){
-                Repondre.nonAuthorise(res,new Error("Utilisateur non-authorisé à supprimer cette sauce !"))
-                return
-            }
-            const pathFileComplete = fileNameCompete(sauce.imageUrl)
-            if( consoleLog )
-                console.log('   Va supprimer '+pathFileComplete)
-            fs.unlink( pathFileComplete, () => {
-                Sauce.deleteOne( { _id: req.params.id })
-                    .then( () => Repondre.message(res, 200, `Sauce ${req.params.id} supprimée !`) )
+    try{
+        const sauceOrigin = req.auth.sauceOrigin
+        publicFile.deleteImageSauce(sauceOrigin.imageUrl)
+            .then(() => {
+                Sauce.deleteOne( { _id: sauceOrigin._id })
+                    .then( () => Repondre.message(res, 200, `Sauce ${sauceOrigin._id} supprimée !`) )
                     .catch( err => Repondre.ErreurServeur(res, err, 'deleteSauce() => Sauce.deleteOne'))
-            } )
-        })
-        .catch(err => Repondre.ErreurServeur(res, err, 'deleteSauce() => Sauce.find'))
+            })
+            .catch(err => Repondre.ErreurServeur(res, err, 'deleteSauce() => publicFile.deleteFile'))
+    }
+    catch(err){
+        Repondre.ErreurServeur(res, err, 'deleteSauce() => try catch')
+    }
 }
