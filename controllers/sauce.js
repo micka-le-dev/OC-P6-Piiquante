@@ -1,7 +1,5 @@
 const Repondre = require('../utils/Repondre')
 const Sauce = require('../models/Sauces')
-const fs = require('fs')
-const { consoleLog } = require('../var')
 const publicFile = require('../utils/fileName')
 
 exports.createSauce = (req, res, next) => {

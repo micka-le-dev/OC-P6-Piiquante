@@ -30,8 +30,7 @@ exports.ErreurServeur = (res, error, contextMessage) => {
 exports.ErreurAuthentification = (res) => {
     const message = 'Paire "email/mot de passe" incorrecte !'
     if( consoleLog ) {
-        console.log('   Repond avec le status : 401, Erreur d\'authentification')
-        console.log('      '+message)
+        console.log('   Repond avec le status : 401, Erreur d\'authentification => '+message)
         console.log(separateurFinReponse)
         console.log('')
     }
@@ -39,22 +38,29 @@ exports.ErreurAuthentification = (res) => {
 }
 
 exports.nonAuthorise = (res, error) => {
-    if( consoleErreur ) {
-        console.error('   Repond avec le status : 401, Erreur d\'authentification')
-        console.error('Erreur d\'authentification : '+error)
-        console.error(separateurFinReponse)
-        console.error('')
+    if( consoleLog ) {
+        console.log('   Repond avec le status : 401, Erreur d\'authentification => '+error)
+        console.log(separateurFinReponse)
+        console.log('')
     }
     res.status(401).json({ error })
 }
 
 exports.objet = (res, statusHTTP, objet) => {
     if( consoleLog ){
-        console.log('   Repond avec le status : '+statusHTTP)
-        if( consoleLogBigBody )
+        const strLog = '   Repond avec le status : '+statusHTTP
+        if( consoleLogBigBody ){
+            console.log(strLog)
             console.log(objet)
+        }
         else if ( objet instanceof Array )
-            console.log(`   Tableau de ${objet.length} objets.`)
+            console.log(`${strLog} => Tableau de ${objet.length} ${objet.heat?'sauces':'objets'}.`)
+        else if( objet.heat )
+            console.log(`${strLog} => Sauce ${objet._id} : ${objet.name}.`)
+        else
+            console.log(`${strLog}
+ => 
+${objet}`)
         console.log(separateurFinReponse)
         console.log('')
     }
@@ -63,8 +69,7 @@ exports.objet = (res, statusHTTP, objet) => {
 
 exports.message = (res, statusHTTP, message) => {
     if( consoleLog ){
-        console.log('   Repond avec le status : '+statusHTTP)
-        console.log('      '+message)
+        console.log('   Repond avec le status : '+statusHTTP+' => '+message)
         console.log(separateurFinReponse)
         console.log('')
     }
