@@ -12,7 +12,7 @@ exports.nonImplemented = (res, contextMessage) => {
         console.error(separateurFinReponse)
         console.error('')
     }
-    res.status(500).json({ error })
+    res.status(500).json({ error: error+'' })
 }
 
 exports.ErreurServeur = (res, error, contextMessage) => {
@@ -23,7 +23,7 @@ exports.ErreurServeur = (res, error, contextMessage) => {
         console.error(separateurFinReponse)
         console.error('')
     }
-    res.status(500).json({ error })
+    res.status(500).json({ error: error+'' })
 }
 
 
@@ -43,7 +43,7 @@ exports.nonAuthorise = (res, error) => {
         console.log(separateurFinReponse)
         console.log('')
     }
-    res.status(401).json({ error })
+    res.status(401).json({ error: error+'' })
 }
 
 exports.objet = (res, statusHTTP, objet) => {
