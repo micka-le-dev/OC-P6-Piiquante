@@ -60,7 +60,14 @@ mongoose.connect('mongodb+srv://go-fullstack-v3-fr:QCwY6hhLnLxTl1vN@oc-p6-cours-
     { useNewUrlParser: true,
     useUnifiedTopology: true })
     .then(() => {
-      console.log('Connexion à MongoDB réussie !')
+      const options = {
+          hour: "numeric",
+          minute: "numeric",
+          second: "numeric",
+          fractionalSecondDigits: 3
+      }
+      const strDate = '['+ new Intl.DateTimeFormat('fr-FR', options).format(new Date()) +']'
+      console.log(strDate+' -> Connexion à MongoDB réussie !')
       if( beginConnectMongoDB )
         server.listen(port)
       else{
@@ -69,7 +76,14 @@ mongoose.connect('mongodb+srv://go-fullstack-v3-fr:QCwY6hhLnLxTl1vN@oc-p6-cours-
       }
     })
     .catch(() => {
-      console.log('Connexion à MongoDB échouée !')
+      const options = {
+          hour: "numeric",
+          minute: "numeric",
+          second: "numeric",
+          fractionalSecondDigits: 3
+      }
+      const strDate = '['+ new Intl.DateTimeFormat('fr-FR', options).format(new Date()) +']'
+      console.log(strDate+' -> Connexion à MongoDB échouée !')
       console.log('')
       console.log('')
     })
