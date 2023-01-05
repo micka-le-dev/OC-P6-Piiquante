@@ -1,5 +1,5 @@
 const multer = require('multer')
-const consoleLog = require('../var').consoleLog
+const log = require('../utils/logConsole')
 const dossier = require('../var').dossierImagesSauces
 
 const MIME_TYPES = {
@@ -21,8 +21,7 @@ const storage = multer.diskStorage({
                 const name = supprExtension(''+file.originalname).replaceAll(' ', '_')
                 const extension = MIME_TYPES[file.mimetype]
                 const newName = name+'_'+Date.now()+'.'+extension
-                if( consoleLog )
-                    console.log('   multer : '+file.originalname+"  => "+dossier+'/'+newName)
+                log.log('multer : '+file.originalname+"  => "+dossier+'/'+newName)
                 callback(null, newName)
             }
     })

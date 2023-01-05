@@ -4,6 +4,7 @@ exports.port = process.env.PORT || 3000
 
 exports.consoleErreur = true
 exports.consoleLog = true
+exports.consoleLogShort = true
 exports.consoleLogMethodOptions = false
 exports.consoleLogBigBody = false
 exports.separateurFinReponse = '-----------------------------------------------------------------------'

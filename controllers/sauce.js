@@ -1,6 +1,7 @@
 const Repondre = require('../utils/Repondre')
 const Sauce = require('../models/Sauces')
 const publicFile = require('../utils/fileName')
+const log = require('../utils/logConsole')
 
 
 
@@ -28,7 +29,7 @@ exports.createSauce = (req, res, next) => {
 
 exports.getAllSauces = (req, res, next) => {
     Sauce.find()
-        .then(sauces => Repondre.objet(res, 200, sauces))
+        .then(sauces => Repondre.objet(res, 200, sauces, 'sauces'))
         .catch(err => Repondre.ErreurServeur(res, err, 'getAllSauces() => Sauce.find'))
 }
 
@@ -36,7 +37,7 @@ exports.getAllSauces = (req, res, next) => {
 
 exports.getOneSauce = (req, res, next) => {
     Sauce.findOne({ _id: req.params.id })
-        .then(sauce => Repondre.objet(res, 200, sauce))
+        .then(sauce => Repondre.objet(res, 200, sauce, 'sauce'))
         .catch(err => Repondre.ErreurServeur(res, err, 'getAllSauces() => Sauce.find'))
 }
 
@@ -141,7 +142,7 @@ exports.likeSauce = (req, res, next) => {
         case 0: actionUser = 'annule son like/dislike'
             break
     }
-    console.log('   L\'utilisateur '+actionUser)
+    log.log('L\'utilisateur '+actionUser)
 
     Sauce.findOne({ _id: req.params.id })
         .then( sauce => {

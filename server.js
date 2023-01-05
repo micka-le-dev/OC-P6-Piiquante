@@ -1,12 +1,18 @@
 const http = require('http')
 const mongoose = require('mongoose')
 const app = require('./app')
+const log = require('./utils/logConsole')
 
 const beginConnectMongoDB = require('./var').beginConnectMongoDB
 const port = require('./var').port
 
+console.log('')
+console.log('==============================================================================================================')
+console.log('')
+console.log('')
 console.log(new Intl.DateTimeFormat('fr-FR', { dateStyle: 'full', timeStyle: 'long', timeZone: 'Europe/Paris' }).format(new Date()))
-console.log('Start server')
+console.log('')
+log.log('Start server')
 
 app.set('port', port)
 
@@ -14,7 +20,7 @@ app.set('port', port)
 const listening = () => {
     const address = server.address()
     const bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + port
-    console.log('Server listen on '+ bind)
+    log.log('Server listen on '+ bind)
     if( beginConnectMongoDB ){
       console.log('')
       console.log('')
@@ -28,13 +34,13 @@ const errorHandler = error => {
     const bind = typeof address === 'string' ? 'pipe ' + address : 'port: ' + port
     switch (error.code) {
       case 'EACCES':
-        console.error(bind + ' requires elevated privileges.')
+        log.erreur(bind + ' requires elevated privileges.')
         console.error('')
         console.error('')
         process.exit(1)
         break
       case 'EADDRINUSE':
-        console.error(bind + ' is already in use.')
+        log.erreur(bind + ' is already in use.')
         console.error('')
         console.error('')
         process.exit(1)
@@ -55,19 +61,12 @@ if( ! beginConnectMongoDB )
 
 
 mongoose.set('strictQuery', true)
-console.log('Connexion à MongoDB en cours...')
+log.log('Connexion à MongoDB en cours...')
 mongoose.connect('mongodb+srv://go-fullstack-v3-fr:QCwY6hhLnLxTl1vN@oc-p6-cours--go-fullsta.gnfmyuh.mongodb.net/?retryWrites=true&w=majority',
     { useNewUrlParser: true,
     useUnifiedTopology: true })
     .then(() => {
-      const options = {
-          hour: "numeric",
-          minute: "numeric",
-          second: "numeric",
-          fractionalSecondDigits: 3
-      }
-      const strDate = '['+ new Intl.DateTimeFormat('fr-FR', options).format(new Date()) +']'
-      console.log(strDate+' -> Connexion à MongoDB réussie !')
+      log.log('Connexion à MongoDB réussie !                 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
       if( beginConnectMongoDB )
         server.listen(port)
       else{
@@ -76,14 +75,7 @@ mongoose.connect('mongodb+srv://go-fullstack-v3-fr:QCwY6hhLnLxTl1vN@oc-p6-cours-
       }
     })
     .catch(() => {
-      const options = {
-          hour: "numeric",
-          minute: "numeric",
-          second: "numeric",
-          fractionalSecondDigits: 3
-      }
-      const strDate = '['+ new Intl.DateTimeFormat('fr-FR', options).format(new Date()) +']'
-      console.log(strDate+' -> Connexion à MongoDB échouée !')
-      console.log('')
-      console.log('')
+      log.erreur('Connexion à MongoDB échouée !')
+      console.error('')
+      console.error('')
     })
