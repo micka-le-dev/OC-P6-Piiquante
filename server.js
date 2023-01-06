@@ -1,5 +1,6 @@
 const http = require('http')
 const mongoose = require('mongoose')
+require('dotenv').config()
 const app = require('./app')
 const log = require('./utils/logConsole')
 
@@ -56,7 +57,7 @@ server.listen(port)
 
 mongoose.set('strictQuery', true)
 log.force('Connexion à MongoDB en cours...')
-mongoose.connect('mongodb+srv://go-fullstack-v3-fr:QCwY6hhLnLxTl1vN@oc-p6-cours--go-fullsta.gnfmyuh.mongodb.net/?retryWrites=true&w=majority',
+mongoose.connect(process.env.connect_mongoDB,
     { useNewUrlParser: true,
     useUnifiedTopology: true })
     .then(() => {

@@ -1,6 +1,6 @@
 const jsonwebtoken = require('jsonwebtoken')
+require('dotenv').config()
 
-const privateKey = 'gtUy94P2LFy2SEo74AkEfaLfruXXEh'
 
 /**
  * @param {string} userId
@@ -8,7 +8,7 @@ const privateKey = 'gtUy94P2LFy2SEo74AkEfaLfruXXEh'
  * @returns {string} token
  */
 exports.encodeUserId = ( userId, expiresIn = '24h') => {
-    return jsonwebtoken.sign( { userId }, privateKey, { expiresIn } )
+    return jsonwebtoken.sign( { userId }, process.env.private_key_token, { expiresIn } )
 }
 
 /**
@@ -20,6 +20,6 @@ exports.decodeUserId = ( token ) => {
     if( framentsToken[0] !== 'Bearer')
         throw new Error('Le token ne commence pas par le bon mot clé')
 
-    const decodedToken = jsonwebtoken.verify(framentsToken[1], privateKey)
+    const decodedToken = jsonwebtoken.verify(framentsToken[1], process.env.private_key_token)
     return decodedToken.userId
 }
