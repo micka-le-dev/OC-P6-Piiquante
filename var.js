@@ -1,13 +1,13 @@
 
-exports.beginConnectMongoDB = false
-exports.port = process.env.PORT || 3000
+exports.port = 3000
 
-exports.consoleErreur = true
+// option de log en console
 exports.consoleLog = true
-exports.consoleLogShort = true
-exports.consoleLogMethodOptions = false
+exports.consoleLogShort = false
 exports.consoleLogBigBody = false
+exports.consoleLogMethodOptions = false
 exports.separateurFinReponse = '-----------------------------------------------------------------------'
+exports.consoleErreur = true
 
 
 const dossier = 'public'

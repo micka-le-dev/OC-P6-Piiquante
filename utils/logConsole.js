@@ -68,7 +68,7 @@ exports.log = (message) => {
         console.log(strDate() + ' - ' + message)
 }
 exports.reponse = (statusHTTP, objet, strNomObjet='objet') => {
-    if( varServeur.consoleLogShort )
+    if( varServeur.consoleLogShort || varServeur.consoleLog == false )
         force('Répond ('+statusHTTP+') '+resumeOneLigne(objet, strNomObjet))
     else{
         force('Répond ('+statusHTTP+')')
@@ -76,9 +76,12 @@ exports.reponse = (statusHTTP, objet, strNomObjet='objet') => {
     }
     // console.log(varServeur.separateurFinReponse)
     console.log('')
+    if( ! varServeur.consoleLog )
+        return
     console.log('')
 }
 
+exports.error = forceErreur
 exports.erreur = (statusHTTP, error, contextMessage) => {
     if( varServeur.consoleErreur ) {
         forceErreur('------')
@@ -109,8 +112,6 @@ function strStd(str, finalLength){
 exports.requete = (method, url) => {
     const strMethod = strStd( method.toUpperCase(), 7 )
 
-    if( varServeur.concoleLogOptions && strMethod === 'OPTIONS')
-        console.log('')
-    if( varServeur.concoleLogOptions || strMethod !== 'OPTIONS' )
+    if( varServeur.consoleLogMethodOptions || strMethod !== 'OPTIONS' )
         console.log(strDate() + ' <- ' + strMethod + ' ' + url)
 }
