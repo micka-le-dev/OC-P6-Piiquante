@@ -3,7 +3,6 @@ const mongoose = require('mongoose')
 const app = require('./app')
 const log = require('./utils/logConsole')
 
-const beginConnectMongoDB = require('./var').beginConnectMongoDB
 const port = require('./var').port
 
 console.log('')

@@ -13,14 +13,10 @@ exports.signup = (req, res, next) => {
                 password: hash
             })
             user.save()
-                .then( () => Repondre.message(res, 201, 'Compte utilisateur créé !'))
-                .catch( err => {
-                    Repondre.ErreurServeur(res, err, 'signup -> save : erreur !')
-                })
+                .then( () => Repondre.message(res, 201, 'Compte utilisateur créé !') )
+                .catch( err => Repondre.ErreurServeur(res, err, 'signup -> save : erreur !') )
         })
-        .catch( err => {
-            Repondre.ErreurServeur(res, err, 'signup -> bcrypt.hash : erreur !')
-        })
+        .catch( err => Repondre.ErreurServeur(res, err, 'signup -> bcrypt.hash : erreur !') )
 
 }
 
@@ -46,11 +42,7 @@ exports.login = (req, res, next) => {
                         'token'
                     )
                 })
-                .catch( err => {
-                    Repondre.ErreurServeur(res, err, 'login -> bcrypt.compare : erreur !')
-                 })
+                .catch( err => Repondre.ErreurServeur(res, err, 'login -> bcrypt.compare : erreur !') )
         })
-        .catch( err => {
-            Repondre.ErreurServeur(res, err, 'login -> findOne : erreur !')
-         })
+        .catch( err => Repondre.ErreurServeur(res, err, 'login -> findOne : erreur !') )
 }

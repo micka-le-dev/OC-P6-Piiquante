@@ -40,6 +40,7 @@ const forceErreur = (message) => console.error(strDate() + ' - ' + message)
 const logObjet = (object, strNameObject='objet') => {
     if( ! varServeur.consoleLog )
         return
+
     if( strNameObject === 'message'){
         force('message : '+object)
         return
@@ -68,7 +69,10 @@ exports.log = (message) => {
         console.log(strDate() + ' - ' + message)
 }
 exports.reponse = (statusHTTP, objet, strNomObjet='objet') => {
-    if( varServeur.consoleLogShort || varServeur.consoleLog == false )
+    if( !varServeur.consoleLog )
+        return
+
+    if( varServeur.consoleLogShort )
         force('Répond ('+statusHTTP+') '+resumeOneLigne(objet, strNomObjet))
     else{
         force('Répond ('+statusHTTP+')')
@@ -110,6 +114,9 @@ function strStd(str, finalLength){
     return str
 }
 exports.requete = (method, url) => {
+    if( !varServeur.consoleLog )
+        return
+
     const strMethod = strStd( method.toUpperCase(), 7 )
 
     if( varServeur.consoleLogMethodOptions || strMethod !== 'OPTIONS' )
