@@ -6,6 +6,7 @@ const log = require('../utils/logConsole')
 
 
 exports.signup = (req, res, next) => {
+    // verifier la complexité du mot de passe
     bcrypt.hash(req.body.password, 10)
         .then( hash => {
             const user = new User({
