@@ -11,6 +11,11 @@ exports.ErreurServeur = (res, error, contextMessage) => {
     res.status(500).json({ error: error+'' })
 }
 
+exports.motDePasseSimple = (res, error) => {
+    log.reponse(400, error, 'mot de passe trop simple')
+    res.status(400).json({ error: error+'' })
+}
+
 
 exports.ErreurAuthentification = (res) => {
     const message = 'Paire "email/mot de passe" incorrecte !'

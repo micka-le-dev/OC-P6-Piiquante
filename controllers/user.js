@@ -3,21 +3,29 @@ const User = require('../models/Users')
 const Repondre = require('../utils/Repondre')
 const Token = require('../utils/token')
 const log = require('../utils/logConsole')
+const passwordIsComplexe = require('../utils/password').passwordIsComplexe
 
 
 exports.signup = (req, res, next) => {
-    // verifier la complexité du mot de passe
-    bcrypt.hash(req.body.password, 10)
+    const messageComplexiteMotDePasse = passwordIsComplexe(req.body.password )
+    if( messageComplexiteMotDePasse === 'ok' )
+    {
+        bcrypt.hash(req.body.password, 10)
         .then( hash => {
             const user = new User({
                 email: req.body.email,
                 password: hash
             })
             user.save()
-                .then( () => Repondre.message(res, 201, 'Compte utilisateur créé !') )
-                .catch( err => Repondre.ErreurServeur(res, err, 'signup -> save : erreur !') )
+            .then( () => Repondre.message(res, 201, 'Compte utilisateur créé !') )
+            .catch( err => Repondre.ErreurServeur(res, err, 'signup -> save : erreur !') )
         })
         .catch( err => Repondre.ErreurServeur(res, err, 'signup -> bcrypt.hash : erreur !') )
+    }
+    else{
+        // le mot de passe n'est pas assez complexe
+        Repondre.motDePasseSimple(res, messageComplexiteMotDePasse)
+    }
 
 }
 
