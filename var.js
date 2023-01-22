@@ -1,6 +1,14 @@
 
 exports.port = 3000
 
+
+const intervalTentativeConnexion = 10 // en minute
+const tempsDUneTentativeHumaine = 5 // en seconde
+exports.limiteTentativeConnexion = {
+    intervaleEnMinutes: intervalTentativeConnexion,
+    maxTentativeDansIntervale: intervalTentativeConnexion*60 / tempsDUneTentativeHumaine
+}
+
 // option de log en console
 exports.consoleLog = true
 exports.consoleLogShort = false
